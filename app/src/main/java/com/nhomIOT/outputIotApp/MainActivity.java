@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.btnReconnect.setOnClickListener(v->{
-
+            viewModel.reconnect();
         });
 
 

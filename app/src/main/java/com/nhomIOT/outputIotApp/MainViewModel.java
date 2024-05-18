@@ -31,6 +31,7 @@ public class MainViewModel extends ViewModel {
     private WebSocket webSocket;
     private final OkHttpClient client = new OkHttpClient();
     private final MutableLiveData<String> message = new MutableLiveData<>("");
+    private final MutableLiveData<String> probability = new MutableLiveData<>("");
     private final MutableLiveData<String> status = new MutableLiveData<>("");
     private final MutableLiveData<Boolean> isConnected = new MutableLiveData<>(false);
 
@@ -57,6 +58,10 @@ public class MainViewModel extends ViewModel {
         return message;
     }
 
+    public LiveData<String> getProbability() {
+        return probability;
+    }
+
     public LiveData<String> getStatus() {
         return status;
     }
@@ -78,10 +83,23 @@ public class MainViewModel extends ViewModel {
         @Override
         public void onMessage(WebSocket webSocket, String text) {
             // Xử lý khi nhận được tin nhắn dạng văn bản từ ESP8266 server
-            Log.d("WebSocket", "Received message string: " + text);
-            if (!message.getValue().equals(text)) {
-                message.postValue(text);
+//            Log.d("WebSocket", "Received message string: " + text);
+
+            String mess = "";
+            String maxProbability = "";
+            if (!text.equals("Chào mừng đến với ESP32-CAM WebSocket Server!")) {
+                String[] parts = text.split(" Probability: ");
+                mess = parts[0].trim();
+                maxProbability = parts[1].trim();
             }
+
+
+            if (!message.getValue().equals(mess)) {
+                message.postValue(mess);
+            }
+
+            probability.postValue(maxProbability);
+//
 
 
         }

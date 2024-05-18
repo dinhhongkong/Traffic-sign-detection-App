@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.getMessage().observe(this, message -> {
             if (message.equals("0")) {
-                binding.tvMessage.setText("Giới hạn tốc độ 30Km/h");
+                binding.tvMessage.setText("Giới hạn tốc độ 30Km/h" );
             } else if (message.equals("1")) {
                 binding.tvMessage.setText("Giao nhau với đường ưu tiên");
             } else if (message.equals("2")) {
@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
             }
             playMp3FromAssets(message);
             loadImage(message);
+        });
+
+        viewModel.getProbability().observe(this,probability->{
+            binding.idPercent.setText(probability);
         });
 
         viewModel.getStatus().observe(this, status -> {
